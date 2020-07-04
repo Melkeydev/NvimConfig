@@ -1,0 +1,2 @@
+{"html.autoClosingTags":true,
+"coc.preferences.formatOnSaveFiletypes": ["javascript", "javascriptreact"]}
