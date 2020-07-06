@@ -9,6 +9,7 @@ set background=dark
 highlight Comment ctermfg=red
 
 set relativenumber
+set nu rnu
 call plug#begin('~/.vim/plugged')
 Plug 'jaredgorski/spacecamp'
 Plug 'preservim/NERDTree'
