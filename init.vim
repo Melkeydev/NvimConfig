@@ -10,19 +10,19 @@ highlight Comment ctermfg=red
 
 set relativenumber
 call plug#begin('~/.vim/plugged')
-Plug 'jaredgorski/spacecamp'
+Plug 'jaredgorski/spacecamp' 
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'preservim/NERDTree'
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'tpope/vim-commentary'
 Plug 'junegunn/fzf.vim'
 Plug 'sheerun/vim-polyglot'
-Plug 'jiangmiao/auto-pairs'
+Plug 'mattn/emmet-vim'
 Plug 'townk/vim-autoclose'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'https://github.com/ctrlpvim/ctrlp.vim.git'
-"Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 Plug 'ryanoasis/vim-devicons'
 Plug 'preservim/nerdcommenter'
 
@@ -46,8 +46,44 @@ inoremap <C-S> <ESC>:write<CR>
 autocmd StdinReadPre * let s:std
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | :vertical resize 60 | endif
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-"autocmd BufWritePre *.js :Prettier %   
 inoremap <expr> <Tab> pumvisible() ? "<C-n>" : "<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "<C-y>" : "<C-g>u<CR>"
+
+"Coc Config"
+ let g:coc_global_extensions = [
+  \ 'coc-snippets',
+  \ 'coc-pairs',
+  \ 'coc-tsserver',
+  \ 'coc-eslint', 
+  \ 'coc-prettier', 
+  \ 'coc-json', 
+  \ ]
+" Remap for rename current word
+nmap <F2> <Plug>(coc-rename)
+
+"Allow NERDTree to show hidden files"
+let NERDTreeShowHidden=1
+
+" sync open file with NERDTree
+" " Check if NERDTree is open or active
+function! IsNERDTreeOpen()        
+  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+endfunction
+
+" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
+" file, and we're not in vimdiff
+function! SyncTree()
+  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
+    NERDTreeFind
+    wincmd p
+  endif
+endfunction
+
+" Highlight currently open buffer in NERDTree
+autocmd BufEnter * call SyncTree()
+
+" re-map emmet binding
+let g:user_emmet_leader_key='<Leader>'
+
 
