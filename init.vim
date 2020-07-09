@@ -85,5 +85,5 @@ autocmd BufEnter * call SyncTree()
 
 " re-map emmet binding
 let g:user_emmet_leader_key='<Leader>'
-
+inoremap luka vince
 
