@@ -1,12 +1,17 @@
 syntax on
 
+set rnu nu
 set cursorline
 set tabstop=4
 set shiftwidth=4
 set expandtab
 set background=dark
-
+set autoread
+set nobackup
+set nowritebackup
+set noswapfile
 highlight Comment ctermfg=red
+
 
 set relativenumber
 call plug#begin('~/.vim/plugged')
@@ -25,8 +30,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'https://github.com/ctrlpvim/ctrlp.vim.git'
 Plug 'ryanoasis/vim-devicons'
 Plug 'preservim/nerdcommenter'
-
 call plug#end()
+
 colorscheme spacecamp
 
 set encoding=UTF-8
@@ -84,6 +89,6 @@ endfunction
 autocmd BufEnter * call SyncTree()
 
 " re-map emmet binding
-let g:user_emmet_leader_key='<Leader>'
+let g:user_emmet_leader_key=','
 
 
