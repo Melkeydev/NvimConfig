@@ -14,6 +14,7 @@ highlight Comment ctermfg=red
 
 
 set relativenumber
+set nu rnu
 call plug#begin('~/.vim/plugged')
 Plug 'jaredgorski/spacecamp' 
 Plug 'Xuyuanp/nerdtree-git-plugin'
