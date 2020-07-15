@@ -5,7 +5,7 @@ set cursorline
 set tabstop=4
 set shiftwidth=4
 set expandtab
-set nowraptext
+"set nowraptext
 set background=dark
 set autoread
 set nobackup
@@ -26,8 +26,8 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'mattn/emmet-vim'
-Plug 'townk/vim-autoclose'
 Plug 'tpope/vim-fugitive'
+Plug 'jiangmiao/auto-pairs'
 Plug 'vim-airline/vim-airline'
 Plug 'https://github.com/ctrlpvim/ctrlp.vim.git'
 Plug 'ryanoasis/vim-devicons'
@@ -39,7 +39,7 @@ colorscheme spacecamp
 set encoding=UTF-8
 let mapleader = " "
 nnoremap <leader><CR> :source ~/.config/nvim/init.vim<CR>
-nnoremap <C-p> :GFiles<CR>
+nnoremap <C-p> :Rg<CR>
 nnoremap <leader>ne :NERDTreeToggle<CR>
 nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
