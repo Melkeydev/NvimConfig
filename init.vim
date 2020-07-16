@@ -18,6 +18,7 @@ set relativenumber
 set nu rnu
 call plug#begin('~/.vim/plugged')
 Plug 'jaredgorski/spacecamp' 
+Plug 'jaredgorski/fogbell'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'preservim/NERDTree'
