@@ -40,7 +40,7 @@ colorscheme spacecamp
 set encoding=UTF-8
 let mapleader = " "
 nnoremap <leader><CR> :source ~/.config/nvim/init.vim<CR>
-nnoremap <C-p> :Files<CR>
+nnoremap <C-p> :Rg<CR>
 nnoremap <leader>ne :NERDTreeToggle<CR>
 nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
