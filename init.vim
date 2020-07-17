@@ -94,4 +94,7 @@ autocmd BufEnter * call SyncTree()
 " re-map emmet binding
 let g:user_emmet_leader_key=','
 
-
+" enable line numbers
+let NERDTreeShowLineNumbers=1
+" make sure relative line numbers are used
+autocmd FileType nerdtree setlocal relativenumber
