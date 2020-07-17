@@ -40,7 +40,7 @@ colorscheme spacecamp
 set encoding=UTF-8
 let mapleader = " "
 nnoremap <leader><CR> :source ~/.config/nvim/init.vim<CR>
-nnoremap <C-p> :Rg<CR>
+nnoremap <C-p> :Files<CR>
 nnoremap <leader>ne :NERDTreeToggle<CR>
 nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
@@ -91,8 +91,6 @@ endfunction
 " Highlight currently open buffer in NERDTree
 autocmd BufEnter * call SyncTree()
 
-" re-map emmet binding
-let g:user_emmet_leader_key=','
 
 " enable line numbers
 let NERDTreeShowLineNumbers=1
