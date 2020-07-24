@@ -18,7 +18,6 @@ set relativenumber
 set nu rnu
 call plug#begin('~/.vim/plugged')
 Plug 'jaredgorski/spacecamp' 
-Plug 'jaredgorski/fogbell.vim'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'preservim/NERDTree'
@@ -57,6 +56,7 @@ autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 inoremap <expr> <Tab> pumvisible() ? "<C-n>" : "<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "<C-y>" : "<C-g>u<CR>"
+
 
 "Coc Config"
  let g:coc_global_extensions = [
