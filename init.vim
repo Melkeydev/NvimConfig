@@ -5,7 +5,6 @@ set cursorline
 set tabstop=4
 set shiftwidth=4
 set expandtab
-"set nowraptext
 set background=dark
 set autoread
 set nobackup
