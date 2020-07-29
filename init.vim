@@ -17,9 +17,6 @@ set relativenumber
 set nu rnu
 call plug#begin('~/.vim/plugged')
 Plug 'jaredgorski/spacecamp'
-
-
-
 Plug 'davidhalter/jedi-vim'   " jedi for python
 Plug 'roxma/nvim-yarp'
 Plug 'ncm2/ncm2'
@@ -29,11 +26,7 @@ Plug 'HansPinckaers/ncm2-jedi'
 Plug 'ncm2/ncm2-bufword'
 " Filepath completion
 Plug 'ncm2/ncm2-path'
-
 Plug 'scrooloose/syntastic'
-
-
-
 Plug 'tpope/vim-sensible'
 Plug 'airblade/vim-gitgutter'
 Plug 'jistr/vim-nerdtree-tabs'
@@ -156,6 +149,6 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 map <leader>s :SyntasticCheck<CR>
-map <leader>d :SyntasticReset<CR>
+map <leader>sd :SyntasticReset<CR>
 map <leader>e :lnext<CR>
 map <leader>r :lprev<CR>
