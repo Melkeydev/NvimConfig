@@ -93,6 +93,9 @@ autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 inoremap <expr> <Tab> pumvisible() ? "<C-n>" : "<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "<C-y>" : "<C-g>u<CR>"
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+
 
 "toggle Tagbag
 map <Leader>t :TagbarToggle<CR>
