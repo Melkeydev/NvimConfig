@@ -17,6 +17,7 @@ set relativenumber
 set nu rnu
 call plug#begin('~/.vim/plugged')
 Plug 'jaredgorski/spacecamp'
+Plug 'ntk148v/vim-horizon'
 Plug 'davidhalter/jedi-vim'   " jedi for python
 Plug 'roxma/nvim-yarp'
 Plug 'ncm2/ncm2'
