@@ -70,7 +70,7 @@ let g:jedi#completions_command = ""
 let g:jedi#show_call_signatures = "1"
 
 
-colorscheme onedark
+colorscheme blue
 
 set encoding=UTF-8
 let mapleader = " "
