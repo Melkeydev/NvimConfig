@@ -16,6 +16,7 @@ highlight Comment ctermfg=red
 set relativenumber
 set nu rnu
 call plug#begin('~/.vim/plugged')
+Plug 'iamcco/coc-tailwindcss'
 Plug 'jaredgorski/spacecamp'
 Plug 'ntk148v/vim-horizon'
 Plug 'davidhalter/jedi-vim'   " jedi for python
