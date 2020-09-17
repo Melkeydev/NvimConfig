@@ -16,6 +16,7 @@ highlight Comment ctermfg=red
 set relativenumber
 set nu rnu
 call plug#begin('~/.vim/plugged')
+Plug 'norcalli/nvim-colorizer.lua'
 Plug 'iamcco/coc-tailwindcss'
 Plug 'jaredgorski/spacecamp'
 Plug 'ntk148v/vim-horizon'
@@ -23,9 +24,9 @@ Plug 'davidhalter/jedi-vim'   " jedi for python
 Plug 'roxma/nvim-yarp'
 Plug 'ncm2/ncm2'
 " Fast python completion (use ncm2 if you want type info or snippet support)
-Plug 'HansPinckaers/ncm2-jedi'
+"Plug 'HansPinckaers/ncm2-jedi'
 " Words in buffer completion
-Plug 'ncm2/ncm2-bufword'
+"Plug 'ncm2/ncm2-bufword'
 " Filepath completion
 Plug 'ncm2/ncm2-path'
 Plug 'tpope/vim-sensible'
@@ -51,6 +52,8 @@ Plug 'preservim/nerdcommenter'
 
 call plug#end()
 
+
+
 autocmd BufEnter * call ncm2#enable_for_buffer()
 set completeopt=menuone,noselect,noinsert
 set shortmess+=c
@@ -68,7 +71,6 @@ let g:jedi#auto_vim_configuration = 0
 let g:jedi#smart_auto_mappings = 0
 let g:jedi#popup_on_dot = 0
 let g:jedi#completions_command = ""
-let g:jedi#show_call_signatures = "1"
 
 
 colorscheme onedark
