@@ -16,20 +16,22 @@ highlight Comment ctermfg=red
 set relativenumber
 set nu rnu
 call plug#begin('~/.vim/plugged')
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/telescope.nvim'
+
+Plug 'neovim/nvim-lsp'
+Plug 'nvim-lua/completion-nvim'
+Plug 'nvim-lua/diagnostic-nvim'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'iamcco/coc-tailwindcss'
 Plug 'jaredgorski/spacecamp'
 Plug 'ntk148v/vim-horizon'
-Plug 'davidhalter/jedi-vim'   " jedi for python
 Plug 'roxma/nvim-yarp'
-Plug 'ncm2/ncm2'
-" Fast python completion (use ncm2 if you want type info or snippet support)
-"Plug 'HansPinckaers/ncm2-jedi'
-" Words in buffer completion
-"Plug 'ncm2/ncm2-bufword'
-" Filepath completion
-Plug 'ncm2/ncm2-path'
+"Plug 'ncm2/ncm2'
+"Plug 'ncm2/ncm2-path'
 Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-surround'
 Plug 'airblade/vim-gitgutter'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -53,25 +55,10 @@ Plug 'preservim/nerdcommenter'
 call plug#end()
 
 
-
-autocmd BufEnter * call ncm2#enable_for_buffer()
 set completeopt=menuone,noselect,noinsert
 set shortmess+=c
 inoremap <c-c> <ESC>
 " make it fast
-let ncm2#popup_delay = 5
-let ncm2#complete_length = [[1, 1]]
-" Use new fuzzy based matches
-let g:ncm2#matcher = 'substrfuzzy'
-
-" Disable Jedi-vim autocompletion and enable call-signatures options
-let g:jedi#auto_initialization = 1
-let g:jedi#completions_enabled = 0
-let g:jedi#auto_vim_configuration = 0
-let g:jedi#smart_auto_mappings = 0
-let g:jedi#popup_on_dot = 0
-let g:jedi#completions_command = ""
-
 
 colorscheme onedark
 
@@ -92,10 +79,7 @@ inoremap <C-S> <ESC>:write<CR>
 autocmd StdinReadPre * let s:std
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | :vertical resize 60 | endif
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-inoremap <expr> <Tab> pumvisible() ? "<C-n>" : "<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"
-inoremap <expr> <cr> pumvisible() ? "<C-y>" : "<C-g>u<CR>"
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent>gr    <cmd>lua require'telescope.builtin'.lsp_references{}<CR>
 
 
 
@@ -112,11 +96,10 @@ map <Leader>t :TagbarToggle<CR>
   \ 'coc-json',
   \ ]
 
- " Remap for rename current word
-nmap <F2> <Plug>(coc-rename)
 
 "Allow NERDTree to show hidden files"
 let NERDTreeShowHidden=1
+let g:python3_host_prog='/usr/bin/python3'
 
 " sync open file with NERDTree
 " " Check if NERDTree is open or active
@@ -148,6 +131,11 @@ let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
 
 let g:airline_powerline_fonts = 1
 
+
+" Focus and redistribute split windows
+noremap ff :resize 100 <CR> <BAR> :vertical resize 220<CR>
+noremap fm <C-w>=
+
 "" syntastic
 "let g:syntastic_always_populate_loc_list = 1
 "let g:syntastic_auto_loc_list = 1
@@ -157,3 +145,28 @@ let g:airline_powerline_fonts = 1
 "map <leader>sd :SyntasticReset<CR>
 "map <leader>e :lnext<CR>
 "map <leader>r :lprev<CR>
+
+lua require('init')
+" =====================================
+" ======= Completion Settings =========
+" =====================================
+
+inoremap <silent><expr> <c-p> completion#trigger_completion()
+
+function! CheckBackSpace() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? "\<C-n>" :
+  \ CheckBackSpace() ? "\<TAB>" :
+  \ completion#trigger_completion()
+
+" This is very important to be loaded here
+" or Tab will not work, for completion
+"inoremap <expr> <Tab> pumvisible() ? "<C-n>" : "<Tab>"
+"inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"
+"inoremap <expr> <cr> pumvisible() ? "<C-y>" : "<C-g>u<CR>"
+"nnoremap <silent> K :call <SID>show_documentation()<CR>
+autocmd BufEnter * lua require'completion'.on_attach()
