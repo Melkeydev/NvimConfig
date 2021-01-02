@@ -166,3 +166,5 @@ nnoremap <Leader>q :bp<CR>
 nnoremap <Leader>e :bn<CR>
 nnoremap <Leader>w :bd<CR>
 
+" Use CTRL+c to copy to system clipboard
+noremap <C-c> "+y 
