@@ -65,7 +65,7 @@ Plug 'neomake/neomake'
 Plug 'tmhedberg/SimpylFold'
 
 "ripgrep
-Plug 'jremmen/vim-ripgrep'
+"Plug 'jremmen/vim-ripgrep'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'pappasam/coc-jedi', { 'do': 'npm install --frozen-lockfile && npm build' }
@@ -152,6 +152,7 @@ autocmd FileType nerdtree setlocal relativenumber
 let $FZF_DEFAULT_OPTS='--reverse'
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
 
+
 let g:airline_powerline_fonts = 1
 
 " Focus and redistribute split windows
@@ -159,9 +160,9 @@ noremap ff :resize 100 <CR> <BAR> :vertical resize 220<CR>
 noremap fm <C-w>=
 
 " Tabs and Buffers
-let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#fnamemode=':t'
-nnoremap <Leader>1 :bp<CR>
-nnoremap <Leader>2 :bn<CR>
-nnoremap <C-w> :bd<CR>
+let g:airline#extensions#tabline#enabled=1
+nnoremap <Leader>q :bp<CR>
+nnoremap <Leader>e :bn<CR>
+nnoremap <Leader>w :bd<CR>
 
