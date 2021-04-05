@@ -4,7 +4,7 @@
 "suggest.timeout": 1,
 "diagnostic.enable": true,
 "clangd.semanticHighlighting": true,
-"eslint.format.enable":true,
-"prettier.formatterPriority":-1
+//"eslint.format.enable":true,
+//"prettier.formatterPriority":-1
 }
 
