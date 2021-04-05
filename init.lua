@@ -4,6 +4,12 @@ vim.g.mapleader = ' '
 
 vim.cmd[[colorscheme onedark]]
 
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    underline = false
+  }
+)
+
 local o = vim.o
 local bo = vim.bo
 local wo = vim.wo

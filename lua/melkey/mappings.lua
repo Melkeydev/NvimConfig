@@ -3,8 +3,8 @@ local utils = require'melkey.utils'
 
 local setup_mappings = function()
     -- javascript
-    vim.cmd[[autocmd BufWritePre *.cs :lua vim.lsp.buf.formatting_sync()]]
-    vim.cmd[[autocmd BufWritePre *js,*ts,*jsx,*tsx,*.graphql,*.json,*.md,*.mdx,*.svelte,*.yml,*yaml :Prettier]]
+     vim.cmd[[autocmd BufWritePre *.cs :lua vim.lsp.buf.formatting_sync()]]
+     vim.cmd[[autocmd BufWritePre *js,*ts,*jsx,*tsx,*.graphql,*.json,*.md,*.mdx,*.svelte,*.yml,*yaml :Prettier]]
 
      -- Python
      vim.cmd[[let g:deoplete#enable_at_startup = 1]]
@@ -19,7 +19,6 @@ local setup_mappings = function()
      vim.cmd[[let g:airline#extensions#tabline#enabled=1]]
 
      vim.cmd[[noremap <C-c> "+y]]
-
      vim.cmd[[inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"]]
 
 
@@ -52,7 +51,7 @@ local setup_mappings = function()
     utils.key_mapper('n', '<leader>rn', ':lua vim.lsp.buf.rename()<CR>')
 
       -- Telescope
-    utils.key_mapper('n', '<C-p>', ':lua require"melkey.telescope".find_files()<CR>')
+    utils.key_mapper('n', '<leader>p', ':lua require"melkey.telescope".find_files()<CR>')
     utils.key_mapper('n', '<leader>fs', ':lua require"melkey.telescope".live_grep()<CR>')
     utils.key_mapper('n', '<leader>fw', ':lua require"melkey.telescope".grep_string(vim.fn.expand("<cword>"))<CR>')
     utils.key_mapper('n', '<leader>fh', ':lua require"melkey.telescope".help_tags()<CR>')

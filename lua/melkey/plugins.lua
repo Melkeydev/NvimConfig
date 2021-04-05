@@ -54,7 +54,6 @@ return packer.startup(function()
     use 'tmhedberg/SimpylFold'
 
     use 'neovim/nvim-lspconfig'
-    use 'nvim-lua/completion-nvim'
     use 'nvim-lua/lsp-status.nvim'
     use 'anott03/nvim-lspinstall'
 

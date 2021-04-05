@@ -44,10 +44,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/sasha/.local/share/nvim/site/pack/packer/start/auto-pairs"
   },
-  ["completion-nvim"] = {
-    loaded = true,
-    path = "/home/sasha/.local/share/nvim/site/pack/packer/start/completion-nvim"
-  },
   ["deoplete-jedi"] = {
     loaded = true,
     path = "/home/sasha/.local/share/nvim/site/pack/packer/start/deoplete-jedi"

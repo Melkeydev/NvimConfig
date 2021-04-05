@@ -1,20 +1,20 @@
 local lspconfig = require'lspconfig'
-local completion = require'completion'
 
 -- Diagnostics
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
-    underline = true,
+    --underline = false,
     --defines error in line via keybinding 
     virtual_text = false,
+    underline = { severity_limit = "Error" },
     signs = true,
     update_in_insert = false,
   }
 )
 
+
 local function default_on_attach(client)
   print('Attaching to ' .. client.name)
-  completion.on_attach(client)
 end
 
 local default_config = {
