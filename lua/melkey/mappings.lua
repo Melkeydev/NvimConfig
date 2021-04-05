@@ -39,6 +39,10 @@ local setup_mappings = function()
     utils.key_mapper('n', '<leader>e', ':bn<CR>')
     utils.key_mapper('n', '<leader>w', ':bd<CR>')
 
+      -- Hop
+    utils.key_mapper('n', '<leader>1', ':HopChar1<CR>')
+    utils.key_mapper('n', '<leader>2', ':HopChar2<CR>')
+
       -- Telescope
     utils.key_mapper('n', '<leader>nw', ':Telescope file_browser<CR>')
     utils.key_mapper('n', '<leader>p', ':lua require"melkey.telescope".find_files()<CR>')

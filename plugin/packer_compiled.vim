@@ -52,6 +52,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/sasha/.local/share/nvim/site/pack/packer/start/deoplete.nvim"
   },
+  ["hop.nvim"] = {
+    loaded = true,
+    path = "/home/sasha/.local/share/nvim/site/pack/packer/start/hop.nvim"
+  },
   ["indentpython.vim"] = {
     loaded = true,
     path = "/home/sasha/.local/share/nvim/site/pack/packer/start/indentpython.vim"

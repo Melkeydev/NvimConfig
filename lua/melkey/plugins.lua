@@ -24,6 +24,7 @@ return packer.startup(function()
     
     use 'Xuyuanp/nerdtree-git-plugin'
     use 'preservim/NERDTree'
+    --use { 'ms-jpq/chadtree', branch = 'chad', run = 'python3 -m chadtree deps' }
 
     use 'tpope/vim-sensible'
     use 'tpope/vim-surround'
@@ -58,6 +59,8 @@ return packer.startup(function()
     use 'anott03/nvim-lspinstall'
 
     use {'prettier/vim-prettier', run = 'npm install' }
+
+    use {'phaazon/hop.nvim'}
 
     end
 )
