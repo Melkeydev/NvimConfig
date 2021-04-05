@@ -136,6 +136,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/sasha/.local/share/nvim/site/pack/packer/start/vim-polyglot"
   },
+  ["vim-prettier"] = {
+    loaded = true,
+    path = "/home/sasha/.local/share/nvim/site/pack/packer/start/vim-prettier"
+  },
   ["vim-ripgrep"] = {
     loaded = true,
     path = "/home/sasha/.local/share/nvim/site/pack/packer/start/vim-ripgrep"

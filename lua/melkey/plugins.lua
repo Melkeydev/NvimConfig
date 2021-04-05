@@ -57,7 +57,7 @@ return packer.startup(function()
     use 'nvim-lua/lsp-status.nvim'
     use 'anott03/nvim-lspinstall'
 
-    --use 'pappasam/coc-jedi'
+    use {'prettier/vim-prettier', run = 'npm install' }
 
     end
 )

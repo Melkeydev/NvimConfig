@@ -1,9 +1,6 @@
 local vim = vim
 local utils = require'melkey.utils'
 
-local custom_lsp_attach = function()
-
-end
 
 local setup_mappings = function()
     -- javascript
@@ -43,7 +40,7 @@ local setup_mappings = function()
     utils.key_mapper('n', '<leader>w', ':bd<CR>')
 
       -- Telescope
-    utils.key_mapper('n', '<leader>nw', ':lua require"melkey.telescope".file_browser()<CR>')
+    utils.key_mapper('n', '<leader>nw', ':Telescope file_browser<CR>')
     utils.key_mapper('n', '<leader>p', ':lua require"melkey.telescope".find_files()<CR>')
     utils.key_mapper('n', '<leader>fs', ':lua require"melkey.telescope".live_grep()<CR>')
     utils.key_mapper('n', '<leader>fw', ':lua require"melkey.telescope".grep_string(vim.fn.expand("<cword>"))<CR>')
