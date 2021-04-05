@@ -1,8 +1,8 @@
 local vim = vim
 
 vim.g.mapleader = ' ' 
-vim.g.colors_name  = 'onedark'
 
+vim.cmd[[colorscheme onedark]]
 
 local o = vim.o
 local bo = vim.bo
@@ -36,6 +36,11 @@ wo.wrap = true
 
 o.syntax = 'on'
 
-vim.cmd[[:highlight LspDiagnosticsUnderlineWarning gui=underline guifg=None]]
+--vim.fn.sign_define("LspDiagnosticsSignError", {text = "", numhl = "LspDiagnosticsDefaultError"})
+--vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "", numhl = "LspDiagnosticsDefaultWarning"})
+--vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", numhl = "LspDiagnosticsDefaultInformation"})
+--vim.fn.sign_define("LspDiagnosticsSignHint", {text = "", numhl = "LspDiagnosticsDefaultHint"})
+
+--hi LspDiagnosticsUnderlineWarning gui=underline guifg=None
 
 require'melkey'
