@@ -12,9 +12,26 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   }
 )
 
+local function lsp_map(mode, left_side, right_side)
+  vim.api.nvim_buf_set_keymap(0, mode, left_side, right_side, {noremap=true})           
+end
 
 local function default_on_attach(client)
   print('Attaching to ' .. client.name)
+
+  lsp_map('n', 'gd', ':lua vim.lsp.buf.definition()<CR>')
+  lsp_map('n', 'gD', ':lua vim.lsp.buf.declaration()<CR>')
+  lsp_map('n', 'gi', ':lua vim.lsp.buf.implementation()<CR>')
+  lsp_map('n', 'gw', ':lua vim.lsp.buf.document_symbol()<CR>')
+  lsp_map('n', 'gW', ':lua vim.lsp.buf.workspace_symbol()<CR>')
+  lsp_map('n', 'gr', ':lua vim.lsp.buf.references()<CR>')
+  lsp_map('n', 'gt', ':lua vim.lsp.buf.type_definition()<CR>')
+  lsp_map('n', 'K', ':lua vim.lsp.buf.hover()<CR>')
+  lsp_map('n', '<c-k>', ':lua vim.lsp.buf.signature_help()<CR>')
+  lsp_map('n', '<leader>af', ':lua vim.lsp.buf.code_action()<CR>')
+  lsp_map('n', '<leader>rn', ':lua vim.lsp.buf.rename()<CR>')
+
+
 end
 
 local default_config = {

@@ -1,6 +1,10 @@
 local vim = vim
 local utils = require'melkey.utils'
 
+local custom_lsp_attach = function()
+
+end
+
 local setup_mappings = function()
     -- javascript
      vim.cmd[[autocmd BufWritePre *.cs :lua vim.lsp.buf.formatting_sync()]]
@@ -21,6 +25,8 @@ local setup_mappings = function()
      vim.cmd[[noremap <C-c> "+y]]
      vim.cmd[[inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"]]
 
+     vim.cmd[[autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)]]
+
 
       -- Movement
     utils.key_mapper('n', '<leader>ne', ':NERDTreeToggle<CR>')
@@ -36,21 +42,8 @@ local setup_mappings = function()
     utils.key_mapper('n', '<leader>e', ':bn<CR>')
     utils.key_mapper('n', '<leader>w', ':bd<CR>')
 
-
-      -- LSP
-    utils.key_mapper('n', 'gd', ':lua vim.lsp.buf.definition()<CR>')
-    utils.key_mapper('n', 'gD', ':lua vim.lsp.buf.declaration()<CR>')
-    utils.key_mapper('n', 'gi', ':lua vim.lsp.buf.implementation()<CR>')
-    utils.key_mapper('n', 'gw', ':lua vim.lsp.buf.document_symbol()<CR>')
-    utils.key_mapper('n', 'gW', ':lua vim.lsp.buf.workspace_symbol()<CR>')
-    utils.key_mapper('n', 'gr', ':lua vim.lsp.buf.references()<CR>')
-    utils.key_mapper('n', 'gt', ':lua vim.lsp.buf.type_definition()<CR>')
-    utils.key_mapper('n', 'K', ':lua vim.lsp.buf.hover()<CR>')
-    utils.key_mapper('n', '<c-k>', ':lua vim.lsp.buf.signature_help()<CR>')
-    utils.key_mapper('n', '<leader>af', ':lua vim.lsp.buf.code_action()<CR>')
-    utils.key_mapper('n', '<leader>rn', ':lua vim.lsp.buf.rename()<CR>')
-
       -- Telescope
+    utils.key_mapper('n', '<leader>nw', ':lua require"melkey.telescope".file_browser()<CR>')
     utils.key_mapper('n', '<leader>p', ':lua require"melkey.telescope".find_files()<CR>')
     utils.key_mapper('n', '<leader>fs', ':lua require"melkey.telescope".live_grep()<CR>')
     utils.key_mapper('n', '<leader>fw', ':lua require"melkey.telescope".grep_string(vim.fn.expand("<cword>"))<CR>')
