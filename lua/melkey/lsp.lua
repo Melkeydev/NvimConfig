@@ -3,7 +3,6 @@ local lspconfig = require'lspconfig'
 -- Diagnostics
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
-    --underline = false,
     --defines error in line via keybinding 
     virtual_text = false,
     underline = { severity_limit = "Error" },
