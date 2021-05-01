@@ -18,6 +18,9 @@ local util = require'packer.util'
 return packer.startup(function()
     local use = use
 
+    use 'jaredgorski/fogbell.vim'
+    use 'gruvbox-community/gruvbox'
+
     use 'nvim-lua/popup.nvim'
     use 'nvim-lua/plenary.nvim'
     use 'nvim-lua/telescope.nvim'

@@ -4,6 +4,12 @@ vim.g.mapleader = ' '
 
 vim.cmd[[colorscheme onedark]]
 
+--vim.cmd 'au ColorScheme * hi! Normal guibg=none'
+vim.cmd 'au ColorScheme * hi! Normal guibg=NONE'
+vim.cmd 'au ColorScheme * hi! SignColumn guibg=NONE'
+vim.cmd 'au ColorScheme * hi! LineNr guibg=NONE'
+vim.cmd 'au ColorScheme * hi! CursorLineNr guibg=NONE'
+
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
     underline = false
