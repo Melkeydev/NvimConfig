@@ -73,3 +73,14 @@ lspconfig.sumneko_lua.setup({
 })
 lspconfig.vimls.setup(default_config)
 lspconfig.yamlls.setup(default_config)
+lspconfig.gopls.setup {
+    cmd = {"gopls", "serve"},
+    settings = {
+      gopls = {
+        analyses = {
+          unusedparams = true,
+        },
+        staticcheck = true,
+      },
+    },
+}
