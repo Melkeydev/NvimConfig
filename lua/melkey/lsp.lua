@@ -43,36 +43,36 @@ local sumneko_lua_root_path = cache_path .. '/lspconfig/sumneko_lua/lua-language
 local sumneko_lua_binary = sumneko_lua_root_path .. '/bin/Linux/lua-language-server'
 
 -- Language Servers
--- lspconfig.pyls.setup(default_config)
--- lspconfig.bashls.setup(default_config)
--- lspconfig.cssls.setup(default_config)
--- lspconfig.dockerls.setup(default_config)
--- lspconfig.html.setup(default_config)
--- lspconfig.jsonls.setup(default_config)
--- lspconfig.tsserver.setup(default_config)
--- lspconfig.sumneko_lua.setup({
---     cmd = {sumneko_lua_binary, "-E", sumneko_lua_root_path .. '/main.lua'},
---     on_attach = default_on_attach,
---     settings = {
---       Lua ={
---         runtime = {
---           version = 'LuaJIT',
---           path = vim.split(package.path, ';')
---         },
---         diagnostics = {
---           globals = {'vim'}
---         },
---         workspace = {
---           library = {
---             [vim.fn.expand('$VIMRUNTIME/lua')] = true,
---             [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true
---           }
---         }
---       }
---     }
--- })
--- lspconfig.vimls.setup(default_config)
--- lspconfig.yamlls.setup(default_config)
+lspconfig.pyls.setup(default_config)
+lspconfig.bashls.setup(default_config)
+lspconfig.cssls.setup(default_config)
+lspconfig.dockerls.setup(default_config)
+lspconfig.html.setup(default_config)
+lspconfig.jsonls.setup(default_config)
+lspconfig.tsserver.setup(default_config)
+lspconfig.sumneko_lua.setup({
+    cmd = {sumneko_lua_binary, "-E", sumneko_lua_root_path .. '/main.lua'},
+    on_attach = default_on_attach,
+    settings = {
+      Lua ={
+        runtime = {
+          version = 'LuaJIT',
+          path = vim.split(package.path, ';')
+        },
+        diagnostics = {
+          globals = {'vim'}
+        },
+        workspace = {
+          library = {
+            [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+            [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true
+          }
+        }
+      }
+    }
+})
+lspconfig.vimls.setup(default_config)
+lspconfig.yamlls.setup(default_config)
 local gopls_config = vim.tbl_extend('force', default_config, {
   settings = {
     gopls = {
