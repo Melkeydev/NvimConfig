@@ -60,6 +60,7 @@ return packer.startup(function()
     use 'neovim/nvim-lspconfig'
     use 'nvim-lua/lsp-status.nvim'
     use 'anott03/nvim-lspinstall'
+    use 'deoplete-plugins/deoplete-lsp'
 
     use {'prettier/vim-prettier', run = 'npm install' }
 
