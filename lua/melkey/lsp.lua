@@ -29,6 +29,7 @@ local function default_on_attach(client)
   lsp_map('n', '<c-k>', ':lua vim.lsp.buf.signature_help()<CR>')
   lsp_map('n', '<leader>af', ':lua vim.lsp.buf.code_action()<CR>')
   lsp_map('n', '<leader>rn', ':lua vim.lsp.buf.rename()<CR>')
+  lsp_map('n', '<leader>f',':lua vim.lsp.buf.formatting()<CR>')
 
 
 end

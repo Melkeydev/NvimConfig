@@ -48,9 +48,21 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/sasha/.local/share/nvim/site/pack/packer/start/deoplete-jedi"
   },
+  ["deoplete-lsp"] = {
+    loaded = true,
+    path = "/home/sasha/.local/share/nvim/site/pack/packer/start/deoplete-lsp"
+  },
   ["deoplete.nvim"] = {
     loaded = true,
     path = "/home/sasha/.local/share/nvim/site/pack/packer/start/deoplete.nvim"
+  },
+  ["fogbell.vim"] = {
+    loaded = true,
+    path = "/home/sasha/.local/share/nvim/site/pack/packer/start/fogbell.vim"
+  },
+  gruvbox = {
+    loaded = true,
+    path = "/home/sasha/.local/share/nvim/site/pack/packer/start/gruvbox"
   },
   ["hop.nvim"] = {
     loaded = true,
