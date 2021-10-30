@@ -2,7 +2,8 @@ local vim = vim
 
 vim.g.mapleader = ' ' 
 
-vim.cmd[[colorscheme onedark]]
+-- Uncomment this only if you have onedark downloaded 
+--vim.cmd[[colorscheme onedark]]
 
 --vim.cmd 'au ColorScheme * hi! Normal guibg=none'
 vim.cmd 'au ColorScheme * hi! Normal guibg=NONE'
