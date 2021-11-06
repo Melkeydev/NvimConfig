@@ -3,7 +3,7 @@ local vim = vim
 vim.g.mapleader = ' ' 
 
 -- Uncomment this only if you have onedark downloaded 
---vim.cmd[[colorscheme onedark]]
+vim.cmd[[colorscheme onedark]]
 
 --vim.cmd 'au ColorScheme * hi! Normal guibg=none'
 vim.cmd 'au ColorScheme * hi! Normal guibg=NONE'
@@ -48,12 +48,5 @@ wo.signcolumn = 'yes'
 wo.wrap = true 
 
 o.syntax = 'on'
-
---vim.fn.sign_define("LspDiagnosticsSignError", {text = "", numhl = "LspDiagnosticsDefaultError"})
---vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "", numhl = "LspDiagnosticsDefaultWarning"})
---vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", numhl = "LspDiagnosticsDefaultInformation"})
---vim.fn.sign_define("LspDiagnosticsSignHint", {text = "", numhl = "LspDiagnosticsDefaultHint"})
-
---hi LspDiagnosticsUnderlineWarning gui=underline guifg=None
 
 require'melkey'
