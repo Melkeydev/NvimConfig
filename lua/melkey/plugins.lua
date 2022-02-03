@@ -63,7 +63,7 @@ return packer.startup(function()
 
     use {'prettier/vim-prettier', run = 'npm install' }
 
-    use {'phaazon/hop.nvim'}
+    user {'jose-elias-alvarez/nvim-lsp-ts-utils'}
 
     end
 )
