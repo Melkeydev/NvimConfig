@@ -1,9 +1,9 @@
 local vim = vim
 
-vim.g.mapleader = ' ' 
+vim.g.mapleader = ' '
 
 -- Uncomment this only if you have onedark downloaded 
-vim.cmd[[colorscheme onedark]]
+pcall(vim.cmd, [[colorscheme onedark]])
 
 --vim.cmd 'au ColorScheme * hi! Normal guibg=none'
 vim.cmd 'au ColorScheme * hi! Normal guibg=NONE'
@@ -45,7 +45,7 @@ o.foldlevelstart = 99
 wo.number = true -- display line numbers
 wo.relativenumber = true -- display relative line numbers
 wo.signcolumn = 'yes'
-wo.wrap = true 
+wo.wrap = true
 
 o.syntax = 'on'
 

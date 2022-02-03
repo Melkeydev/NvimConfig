@@ -55,11 +55,9 @@ local setup_mappings = function()
     utils.key_mapper('n', '<leader>fd', ':lua require"melkey.telescope".dotfiles()<CR>')
 
       -- Diagnostics
-    utils.key_mapper('n', '<leader>dn', ':lua vim.lsp.diagnostic.goto_next()<CR>')
-    utils.key_mapper('n', '<leader>dp', ':lua vim.lsp.diagnostic.goto_prev()<CR>')
-    utils.key_mapper('n', '<leader>ds', ':lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
-    
-
+    utils.key_mapper('n', '<leader>dn', ':lua vim.diagnostic.goto_next()<CR>')
+    utils.key_mapper('n', '<leader>dp', ':lua vim.diagnostic.goto_prev()<CR>')
+    utils.key_mapper('n', '<leader>ds', ':lua vim.diagnostic.open_float({ focus = false })<CR>')
 end
 
 setup_mappings()

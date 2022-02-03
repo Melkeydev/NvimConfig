@@ -6,8 +6,7 @@ local fn = vim.fn
 local install_path = fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
 
 if fn.empty(fn.glob(install_path)) > 0 then
-	execute('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
-    execute 'packadd packer.nvim'
+    packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
 end
 
 vim.cmd('packadd packer.nvim')
@@ -15,8 +14,8 @@ vim.cmd('packadd packer.nvim')
 local packer = require'packer'
 local util = require'packer.util'
 
-return packer.startup(function()
-    local use = use
+return packer.startup(function(use)
+    use {'wbthomason/packer.nvim', opt = true}
 
     use 'jaredgorski/fogbell.vim'
     use 'gruvbox-community/gruvbox'
@@ -63,8 +62,10 @@ return packer.startup(function()
 
     use {'prettier/vim-prettier', run = 'npm install' }
 
-    user {'jose-elias-alvarez/nvim-lsp-ts-utils'}
+    use {'jose-elias-alvarez/nvim-lsp-ts-utils'}
 
+    if packer_bootstrap then
+        packer.sync()
     end
-)
+end)
 
