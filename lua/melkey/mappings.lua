@@ -8,9 +8,6 @@ local setup_mappings = function()
      vim.cmd[[autocmd BufWritePre *js,*ts,*jsx,*tsx,*.graphql,*.md,*.mdx,*.svelte,*.yml,*yaml :Prettier]]
 
      -- Python
-     vim.cmd[[let g:deoplete#enable_at_startup = 1]]
-     vim.cmd[[let g:jedi#completions_enabled = 0]]
-     vim.cmd[[let g:jedi#use_splits_not_buffers = "right"]]
      vim.cmd[[let g:neomake_python_enabled_makers = 'flake8']]
      vim.cmd[[let g:python3_host_prog='/usr/bin/python3']]
      vim.cmd[[let NERDTreeShowHidden=1]]
@@ -21,8 +18,6 @@ local setup_mappings = function()
 
      vim.cmd[[noremap <C-c> "+y]]
      vim.cmd[[inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"]]
-
-     vim.cmd[[autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)]]
 
 
       -- Movement
@@ -40,10 +35,6 @@ local setup_mappings = function()
     utils.key_mapper('n', '<leader>e', ':bn<CR>')
     utils.key_mapper('n', '<leader>w', ':bd<CR>')
 
-      -- Hop
-    utils.key_mapper('n', '<leader>1', ':HopChar1<CR>')
-    utils.key_mapper('n', '<leader>2', ':HopChar2<CR>')
-
       -- Telescope
     --utils.key_mapper('n', '<leader>nw', ':Telescope file_browser<CR>')
     utils.key_mapper('n', '<leader>p', ':lua require"melkey.telescope".find_files()<CR>')
@@ -55,9 +46,9 @@ local setup_mappings = function()
     utils.key_mapper('n', '<leader>fd', ':lua require"melkey.telescope".dotfiles()<CR>')
 
       -- Diagnostics
-    utils.key_mapper('n', '<leader>dn', ':lua vim.diagnostic.goto_next()<CR>')
-    utils.key_mapper('n', '<leader>dp', ':lua vim.diagnostic.goto_prev()<CR>')
-    utils.key_mapper('n', '<leader>ds', ':lua vim.diagnostic.open_float({ focus = false })<CR>')
+    utils.key_mapper('n', '<leader>dn', ':lua vim.diagnostic.goto_next({float={border="rounded"}})<CR>')
+    utils.key_mapper('n', '<leader>dp', ':lua vim.diagnostic.goto_prev({float={border="rounded"}})<CR>')
+    utils.key_mapper('n', '<leader>ds', ':lua vim.diagnostic.open_float({ focusable = false, border="rounded" })<CR>')
 end
 
 setup_mappings()

@@ -17,6 +17,9 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   }
 )
 
+vim.g.closetag_filetypes = 'html,xhtml,phtml,typescriptreact,javascriptreact,javascript,typescript'
+
+
 local o = vim.o
 local bo = vim.bo
 local wo = vim.wo

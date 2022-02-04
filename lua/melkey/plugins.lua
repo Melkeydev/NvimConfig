@@ -23,7 +23,6 @@ return packer.startup(function(use)
     use 'nvim-lua/popup.nvim'
     use 'nvim-lua/plenary.nvim'
     use 'nvim-lua/telescope.nvim'
-    
     use 'Xuyuanp/nerdtree-git-plugin'
     use 'preservim/NERDTree'
 
@@ -44,25 +43,27 @@ return packer.startup(function(use)
 
     use 'preservim/nerdcommenter'
 
-    use 'Shougo/deoplete.nvim'
-    use 'zchee/deoplete-jedi'
-
     use 'sbdchd/neoformat'
-
-    use 'davidhalter/jedi-vim'
-
-    use 'neomake/neomake'
 
     use 'tmhedberg/SimpylFold'
 
     use 'neovim/nvim-lspconfig'
+    use {'williamboman/nvim-lsp-installer'}
     use 'nvim-lua/lsp-status.nvim'
-    use 'anott03/nvim-lspinstall'
-    use 'deoplete-plugins/deoplete-lsp'
 
     use {'prettier/vim-prettier', run = 'npm install' }
 
     use {'jose-elias-alvarez/nvim-lsp-ts-utils'}
+
+    use 'hrsh7th/cmp-nvim-lsp'
+    use 'hrsh7th/cmp-buffer'
+    use 'hrsh7th/cmp-path'
+    use 'hrsh7th/cmp-cmdline'
+    use 'hrsh7th/nvim-cmp'
+
+    use 'hrsh7th/cmp-vsnip'
+    use 'hrsh7th/vim-vsnip'
+    use 'alvan/vim-closetag'
 
     if packer_bootstrap then
         packer.sync()
