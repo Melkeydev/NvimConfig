@@ -1,5 +1,8 @@
 local lspconfig = require'lspconfig'
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
 -- Diagnostics
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -43,6 +46,7 @@ local function default_on_attach(client)
 end
 
 local default_config = {
+  capabilities = capabilities,
   on_attach = default_on_attach,
 }
 
@@ -54,6 +58,7 @@ local sumneko_lua_binary = sumneko_lua_root_path .. '/bin/Linux/lua-language-ser
 -- Language Servers
 --lspconfig.pylsp.setup(default_config)
 lspconfig.bashls.setup(default_config)
+
 lspconfig.cssls.setup(default_config)
 lspconfig.dockerls.setup(default_config)
 lspconfig.html.setup(default_config)
@@ -112,17 +117,28 @@ lspconfig.tsserver.setup({
   })
 lspconfig.vimls.setup(default_config)
 lspconfig.yamlls.setup(default_config)
-local gopls_config = vim.tbl_extend('force', default_config, {
-    settings = {
-      gopls = {
-        analyses = {
-          unusedparams = true,
-        },
-        staticcheck = true,
-      },
-    },
-  })
-lspconfig.gopls.setup(gopls_config)
+--local gopls_config = vim.tbl_extend('force', default_config, {
+    --settings = {
+      --gopls = {
+        --analyses = {
+          --unusedparams = true,
+        --},
+        --staticcheck = true,
+      --},
+    --},
+  --})
+  --local gopls_config = {
+    --on_attach = default_on_attach;
+    --settings = {
+      --gopls = {
+        --analyses = {
+          --unusedparams = true,
+        --},
+        --staticcheck = true,
+      --},
+    --},
+  --}
+--lspconfig.gopls.setup(gopls_config)
 local lsp_installer = require("nvim-lsp-installer")
 
 -- Register a handler that will be called for each installed server when it's ready (i.e. when installation is finished
@@ -132,6 +148,21 @@ table.insert(lua_rtp, 'lua/?.lua')
 table.insert(lua_rtp, 'lua/?/init.lua')
 lsp_installer.on_server_ready(function(server)
   local opts = {}
+
+  if server.name == 'gopls' then
+    opts = {
+      capabilities = capabilities;
+      on_attach = default_on_attach;
+      settings = {
+        gopls = {
+          analyses = {
+            unusedparams = true,
+          },
+          staticcheck = true,
+        },
+      }
+    }
+  end
 
   -- (optional) Customize the options passed to the server
   if server.name == "sumneko_lua" then
