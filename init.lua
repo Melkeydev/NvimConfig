@@ -11,14 +11,7 @@ vim.cmd 'au ColorScheme * hi! SignColumn guibg=NONE'
 vim.cmd 'au ColorScheme * hi! LineNr guibg=NONE'
 vim.cmd 'au ColorScheme * hi! CursorLineNr guibg=NONE'
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    underline = false
-  }
-)
-
 vim.g.closetag_filetypes = 'html,xhtml,phtml,typescriptreact,javascriptreact,javascript,typescript'
-
 
 local o = vim.o
 local bo = vim.bo
