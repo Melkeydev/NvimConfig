@@ -17,8 +17,6 @@ local setup_mappings = function()
      vim.cmd[[let g:airline#extensions#tabline#enabled=1]]
 
      vim.cmd[[noremap <C-c> "+y]]
-     vim.cmd[[inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"]]
-
 
       -- Movement
     utils.key_mapper('n', '<leader>ne', ':NERDTreeToggle<CR>')
