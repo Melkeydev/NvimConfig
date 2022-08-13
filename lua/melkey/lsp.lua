@@ -1,22 +1,22 @@
-local lspconfig = require'lspconfig'
+vim.api.nvim_create_augroup('LspFormattingOnSave', {})
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 -- Diagnostics
 vim.diagnostic.config {
-    --defines error in line via keybinding
-    virtual_text = true,
-    underline = { severity_limit = "Error" },
-    signs = true,
-    update_in_insert = false,
+  --defines error in line via keybinding
+  virtual_text = true,
+  underline = { severity_limit = 'Error' },
+  signs = true,
+  update_in_insert = false,
 }
 
-local signs = { Error = " X", Warn = " ▲", Hint = " ", Info = " " }
+local signs = { Error = ' X', Warn = ' ▲', Hint = ' ', Info = ' ' }
 
 for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+  local hl = 'DiagnosticSign' .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
 end
 
 local function on_attach(client, buf)
@@ -33,7 +33,24 @@ local function on_attach(client, buf)
   vim.keymap.set('n', '<c-k>', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', { buffer = buf })
   vim.keymap.set('n', '<leader>af', '<Cmd>lua vim.lsp.buf.code_action()<CR>', { buffer = buf })
   vim.keymap.set('n', '<leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>', { buffer = buf })
-  vim.keymap.set('n', '<leader>f','<Cmd>lua vim.lsp.buf.formatting()<CR>', { buffer = buf })
+end
+
+local function set_formatting_keymap(client, buf)
+  vim.keymap.set('n', '<Leader>f', function()
+    local params = vim.lsp.util.make_formatting_params {}
+    client.request('textDocument/formatting', params, nil, buf)
+  end, { buffer = buf })
+end
+
+local function set_formatting_on_save(client, buf)
+  vim.api.nvim_create_autocmd('BufWritePre', {
+    group = 'LspFormattingOnSave',
+    buffer = buf,
+    callback = function()
+      local params = vim.lsp.util.make_formatting_params {}
+      client.request('textDocument/formatting', params, nil, buf)
+    end,
+  })
 end
 
 local tools = {
@@ -86,7 +103,7 @@ for _, server in pairs(lsp_servers) do
         },
         -- Do not send telemetry data containing a randomized but unique identifier
         telemetry = { enable = false },
-      }
+      },
     }
     require('lspconfig')[server].setup {
       on_attach = on_attach,
@@ -100,6 +117,21 @@ for _, server in pairs(lsp_servers) do
     }
   end
 end
+
+require('null-ls').setup {
+  sources = {
+    require('null-ls').builtins.diagnostics.eslint_d,
+    require('null-ls').builtins.formatting.prettier,
+    require('null-ls').builtins.formatting.stylua,
+    require('null-ls').builtins.diagnostics.flake8,
+  },
+  on_attach = function(client, buf)
+    if client.supports_method 'textDocument/formatting' and client.name == 'null-ls' then
+      set_formatting_keymap(client, buf)
+      set_formatting_on_save(client, buf)
+    end
+  end,
+}
 
 -- Language Servers
 -- lspconfig.pylsp.setup(default_config)

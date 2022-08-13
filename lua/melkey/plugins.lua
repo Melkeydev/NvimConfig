@@ -1,7 +1,6 @@
 local vim = vim
-
-local execute = vim.api.nvim_command
 local fn = vim.fn
+local packer_bootstrap = false
 
 local install_path = fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
 
@@ -14,9 +13,9 @@ vim.cmd('packadd packer.nvim')
 local packer = require'packer'
 local util = require'packer.util'
 
-packer.init({
+packer.init {
     compile_path = util.join_paths(vim.fn.stdpath('data'), 'site', 'plugin', 'packer_compiled.lua'),
-})
+}
 
 return packer.startup(function(use)
     use {'wbthomason/packer.nvim', opt = true}
@@ -47,7 +46,7 @@ return packer.startup(function(use)
 
     use 'preservim/nerdcommenter'
 
-    use 'sbdchd/neoformat'
+    -- use 'sbdchd/neoformat'
 
     use 'tmhedberg/SimpylFold'
 
@@ -57,11 +56,12 @@ return packer.startup(function(use)
             'williamboman/mason.nvim',
             'williamboman/mason-lspconfig.nvim',
             'WhoIsSethDaniel/mason-tool-installer.nvim',
+            'jose-elias-alvarez/null-ls.nvim',
             'nvim-lua/lsp-status.nvim',
         },
     }
 
-    use {'prettier/vim-prettier', run = 'npm install' }
+    -- use {'prettier/vim-prettier', run = 'npm install' }
 
     use {
         'hrsh7th/nvim-cmp',
