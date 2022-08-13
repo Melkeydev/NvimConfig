@@ -3,10 +3,6 @@ local utils = require'melkey.utils'
 
 
 local setup_mappings = function()
-    -- javascript
-     vim.cmd[[autocmd BufWritePre *.cs :lua vim.lsp.buf.formatting_sync()]]
-     vim.cmd[[autocmd BufWritePre *js,*ts,*jsx,*tsx,*.graphql,*.md,*.mdx,*.svelte,*.yml,*yaml :Prettier]]
-
      -- Python
      vim.cmd[[let g:neomake_python_enabled_makers = 'flake8']]
      vim.cmd[[let g:python3_host_prog='/usr/bin/python3']]
