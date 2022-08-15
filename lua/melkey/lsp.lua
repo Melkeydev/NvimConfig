@@ -1,58 +1,5 @@
 vim.api.nvim_create_augroup('LspFormattingOnSave', {})
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-
--- Diagnostics
-vim.diagnostic.config {
-  --defines error in line via keybinding
-  virtual_text = true,
-  underline = { severity_limit = 'Error' },
-  signs = true,
-  update_in_insert = false,
-}
-
-local signs = { Error = ' X', Warn = ' ▲', Hint = ' ', Info = ' ' }
-
-for type, icon in pairs(signs) do
-  local hl = 'DiagnosticSign' .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
-end
-
-local function on_attach(client, buf)
-  print('Attaching to ' .. client.name)
-
-  vim.keymap.set('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', { buffer = buf })
-  vim.keymap.set('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', { buffer = buf })
-  vim.keymap.set('n', 'gi', '<Cmd>lua vim.lsp.buf.implementation()<CR>', { buffer = buf })
-  vim.keymap.set('n', 'gw', '<Cmd>lua vim.lsp.buf.document_symbol()<CR>', { buffer = buf })
-  vim.keymap.set('n', 'gW', '<Cmd>lua vim.lsp.buf.workspace_symbol()<CR>', { buffer = buf })
-  vim.keymap.set('n', 'gr', '<Cmd>lua vim.lsp.buf.references()<CR>', { buffer = buf })
-  vim.keymap.set('n', 'gt', '<Cmd>lua vim.lsp.buf.type_definition()<CR>', { buffer = buf })
-  vim.keymap.set('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', { buffer = buf })
-  vim.keymap.set('n', '<c-k>', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', { buffer = buf })
-  vim.keymap.set('n', '<leader>af', '<Cmd>lua vim.lsp.buf.code_action()<CR>', { buffer = buf })
-  vim.keymap.set('n', '<leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>', { buffer = buf })
-end
-
-local function set_formatting_keymap(client, buf)
-  vim.keymap.set('n', '<Leader>f', function()
-    local params = vim.lsp.util.make_formatting_params {}
-    client.request('textDocument/formatting', params, nil, buf)
-  end, { buffer = buf })
-end
-
-local function set_formatting_on_save(client, buf)
-  vim.api.nvim_create_autocmd('BufWritePre', {
-    group = 'LspFormattingOnSave',
-    buffer = buf,
-    callback = function()
-      local params = vim.lsp.util.make_formatting_params {}
-      client.request('textDocument/formatting', params, nil, buf)
-    end,
-  })
-end
-
 local tools = {
   'eslint_d',
   'prettier',
@@ -73,6 +20,74 @@ local lsp_servers = {
   'html',
   'yamlls',
 }
+
+local allowed_to_format = {
+  'gopls',
+  'bashls',
+  'pyright',
+  'dockerls',
+  'html',
+}
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
+-- Diagnostics
+vim.diagnostic.config {
+  --defines error in line via keybinding
+  virtual_text = true,
+  underline = { severity_limit = 'Error' },
+  signs = true,
+  update_in_insert = false,
+}
+
+local signs = { Error = ' X', Warn = ' ▲', Hint = ' ', Info = ' ' }
+
+for type, icon in pairs(signs) do
+  local hl = 'DiagnosticSign' .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
+end
+
+local function set_formatting_keymap(client, buf)
+  vim.keymap.set('n', '<Leader>f', function()
+    local params = vim.lsp.util.make_formatting_params {}
+    client.request('textDocument/formatting', params, nil, buf)
+  end, { buffer = buf })
+end
+
+local function set_formatting_on_save(client, buf)
+  vim.api.nvim_create_autocmd('BufWritePre', {
+    group = 'LspFormattingOnSave',
+    buffer = buf,
+    callback = function()
+      local params = vim.lsp.util.make_formatting_params {}
+      client.request('textDocument/formatting', params, nil, buf)
+    end,
+  })
+end
+
+local function on_attach(client, buf)
+  print('Attaching to ' .. client.name)
+
+  vim.keymap.set('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', { buffer = buf })
+  vim.keymap.set('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', { buffer = buf })
+  vim.keymap.set('n', 'gi', '<Cmd>lua vim.lsp.buf.implementation()<CR>', { buffer = buf })
+  vim.keymap.set('n', 'gw', '<Cmd>lua vim.lsp.buf.document_symbol()<CR>', { buffer = buf })
+  vim.keymap.set('n', 'gW', '<Cmd>lua vim.lsp.buf.workspace_symbol()<CR>', { buffer = buf })
+  vim.keymap.set('n', 'gr', '<Cmd>lua vim.lsp.buf.references()<CR>', { buffer = buf })
+  vim.keymap.set('n', 'gt', '<Cmd>lua vim.lsp.buf.type_definition()<CR>', { buffer = buf })
+  vim.keymap.set('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', { buffer = buf })
+  vim.keymap.set('n', '<c-k>', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', { buffer = buf })
+  vim.keymap.set('n', '<leader>af', '<Cmd>lua vim.lsp.buf.code_action()<CR>', { buffer = buf })
+  vim.keymap.set('n', '<leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>', { buffer = buf })
+
+  -- Only autoformat code (or <leader>f manually) if the lsp server can
+  -- or is allowed by `allowed_to_format` variable
+  if client.supports_method 'textDocument/formatting' and vim.tbl_contains(allowed_to_format, client.name) then
+    set_formatting_keymap(client, buf)
+    set_formatting_on_save(client, buf)
+  end
+end
 
 require('mason').setup()
 require('mason-tool-installer').setup { ensure_installed = tools }
