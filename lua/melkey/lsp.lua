@@ -19,6 +19,7 @@ local lsp_servers = {
   'tailwindcss',
   'html',
   'yamlls',
+  'diagnosticls',
 }
 
 local allowed_to_format = {
