@@ -2,7 +2,7 @@ local vim = vim
 
 vim.g.mapleader = ' '
 
--- Uncomment this only if you have onedark downloaded 
+-- Uncomment this only if you have onedark downloaded
 pcall(vim.cmd, [[colorscheme onedark]])
 
 --vim.cmd 'au ColorScheme * hi! Normal guibg=none'
@@ -24,11 +24,11 @@ o.smartcase = true
 o.showmode = false
 bo.swapfile = false
 o.backup = false
-o.undodir = vim.fn.stdpath('cache') .. '/undodir'
+o.undodir = vim.fn.stdpath 'cache' .. '/undodir'
 o.undofile = true
 o.incsearch = true
 o.hidden = true
-o.completeopt='menuone,noinsert,noselect'
+o.completeopt = 'menuone,noinsert,noselect'
 bo.autoindent = true
 bo.smartindent = true
 
@@ -45,4 +45,4 @@ wo.wrap = true
 
 o.syntax = 'on'
 
-require'melkey'
+require 'melkey'
