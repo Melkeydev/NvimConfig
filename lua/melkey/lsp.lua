@@ -55,13 +55,27 @@ local function set_formatting_keymap(client, buf)
   end, { buffer = buf })
 end
 
+local function lsp_format_sync(client, buf, params, timeout)
+  timeout = timeout or 1000
+
+  local response = client.request_sync('textDocument/formatting', params, timeout, buf)
+  if response.err then
+    return
+  end
+  if #response.result == 0 then
+    return
+  end
+
+  vim.lsp.util.apply_text_edits(response.result, buf, client.offset_encoding)
+end
+
 local function set_formatting_on_save(client, buf)
   vim.api.nvim_create_autocmd('BufWritePre', {
     group = 'LspFormattingOnSave',
     buffer = buf,
     callback = function()
       local params = vim.lsp.util.make_formatting_params {}
-      client.request('textDocument/formatting', params, nil, buf)
+      lsp_format_sync(client, buf, params)
     end,
   })
 end
@@ -133,162 +147,25 @@ for _, server in pairs(lsp_servers) do
   end
 end
 
-require('null-ls').setup {
-  sources = {
-    require('null-ls').builtins.diagnostics.eslint_d,
-    require('null-ls').builtins.formatting.prettier,
-    require('null-ls').builtins.formatting.stylua,
-    require('null-ls').builtins.diagnostics.flake8,
-  },
+require('diagnosticls-configs').init {
+  capabilities = capabilities,
   on_attach = function(client, buf)
-    if client.supports_method 'textDocument/formatting' and client.name == 'null-ls' then
+    if client.supports_method 'textDocument/formatting' and client.name == 'diagnosticls' then
       set_formatting_keymap(client, buf)
       set_formatting_on_save(client, buf)
     end
   end,
 }
 
--- Language Servers
--- lspconfig.pylsp.setup(default_config)
--- lspconfig.bashls.setup(default_config)
-
--- lspconfig.cssls.setup(default_config)
--- lspconfig.dockerls.setup(default_config)
--- lspconfig.html.setup(default_config)
--- lspconfig.jsonls.setup(default_config)
--- lspconfig.tailwindcss.setup(default_config)
--- lspconfig.tsserver.setup({
---     on_attach = function(client, bufnr)
---       local ts_utils = require("nvim-lsp-ts-utils")
---
---       default_on_attach(client)
---
---       -- defaults
---       ts_utils.setup {
---         debug = false,
---         disable_commands = false,
---         enable_import_on_completion = true,
---         import_on_completion_timeout = 5000,
---
---         -- eslint
---         eslint_enable_code_actions = true,
---         eslint_bin = "eslint",
---         eslint_args = {"-f", "json", "--stdin", "--stdin-filename", "$FILENAME"},
---         eslint_enable_disable_comments = true,
---
---         -- experimental settings!
---         -- eslint diagnostics
---         eslint_enable_diagnostics = true,
---         eslint_diagnostics_debounce = 250,
---
---         -- formatting
---         enable_formatting = true,
---         formatter = "prettier",
---         formatter_args = {"--stdin-filepath", "$FILENAME"},
---         format_on_save = true,
---         no_save_after_format = false,
---
---         -- parentheses completion
---         complete_parens = false,
---         signature_help_in_parens = true,
---
---         -- update imports on file move
---         update_imports_on_move = false,
---         require_confirmation_on_move = false,
---         watch_dir = "/src",
---       }
---
---       -- required to enable ESLint code actions and formatting
---       ts_utils.setup_client(client)
---
---       -- no default maps, so you may want to define some here
---       vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", ":TSLspOrganize<CR>", {silent = true})
---       vim.api.nvim_buf_set_keymap(bufnr, "n", "qq", ":TSLspFixCurrent<CR>", {silent = true})
---       vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", ":TSLspRenameFile<CR>", {silent = true})
---       vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", ":TSLspImportAll<CR>", {silent = true})
---     end
---   })
--- lspconfig.vimls.setup(default_config)
--- lspconfig.yamlls.setup(default_config)
--- --local gopls_config = vim.tbl_extend('force', default_config, {
---     --settings = {
---       --gopls = {
---         --analyses = {
---           --unusedparams = true,
---         --},
---         --staticcheck = true,
---       --},
---     --},
---   --})
---   --local gopls_config = {
---     --on_attach = default_on_attach;
---     --settings = {
---       --gopls = {
---         --analyses = {
---           --unusedparams = true,
---         --},
---         --staticcheck = true,
---       --},
---     --},
---   --}
--- --lspconfig.gopls.setup(gopls_config)
--- local lsp_installer = require("nvim-lsp-installer")
---
--- -- Register a handler that will be called for each installed server when it's ready (i.e. when installation is finished
--- -- or if the server is already installed).
--- local lua_rtp = vim.split(package.path, ';')
--- table.insert(lua_rtp, 'lua/?.lua')
--- table.insert(lua_rtp, 'lua/?/init.lua')
--- lsp_installer.on_server_ready(function(server)
---   local opts = {}
---
---   if server.name == 'gopls' then
---     opts = {
---       capabilities = capabilities;
---       on_attach = default_on_attach;
---       settings = {
---         gopls = {
---           analyses = {
---             unusedparams = true,
---           },
---           staticcheck = true,
---         },
---       }
---     }
---   end
---
---   -- (optional) Customize the options passed to the server
---   if server.name == "sumneko_lua" then
---     opts.settings = {
---       Lua = {
---         runtime = {
---           -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
---           version = 'LuaJIT',
---           -- Setup your lua path
---           path = lua_rtp,
---         },
---         diagnostics = {
---           -- Get the language server to recognize the `vim` global
---           globals = { 'vim', 'coq' },
---         },
---         workspace = {
---           -- Make the server aware of Neovim runtime files
---           library = vim.api.nvim_get_runtime_file('', true),
---           checkThirdParty = false,
---           userThirdParty = {
---             'OpenResty',
---           },
---         },
---         -- Do not send telemetry data containing a randomized but unique identifier
---         telemetry = {
---           enable = false,
---         },
---       }
---     }
---   end
---
---   -- This setup() function will take the provided server configuration and decorate it with the necessary properties
---   -- before passing it onwards to lspconfig.
---   -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
---   server:setup(opts)
--- end)
+local eslint_d = require 'diagnosticls-configs.linters.eslint_d'
+local flake8 = require 'diagnosticls-configs.linters.flake8'
+local prettier = require 'diagnosticls-configs.formatters.prettier'
+local stylua = require 'diagnosticls-configs.formatters.stylua'
+require('diagnosticls-configs').setup {
+  javascript = { linter = eslint_d, formatter = prettier },
+  javascriptreact = { linter = eslint_d, formatter = prettier },
+  typescript = { linter = eslint_d, formatter = prettier },
+  typescriptreact = { linter = eslint_d, formatter = prettier },
+  lua = { formatter = stylua },
+  python = { linter = flake8 },
+}

@@ -2,83 +2,83 @@ local vim = vim
 local fn = vim.fn
 local packer_bootstrap = false
 
-local install_path = fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
+local install_path = fn.stdpath 'data' .. '/site/pack/packer/opt/packer.nvim'
 
 if fn.empty(fn.glob(install_path)) > 0 then
-    packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+  packer_bootstrap =
+    fn.system { 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path }
 end
 
-vim.cmd('packadd packer.nvim')
+vim.cmd 'packadd packer.nvim'
 
-local packer = require'packer'
-local util = require'packer.util'
+local packer = require 'packer'
+local util = require 'packer.util'
 
 packer.init {
-    compile_path = util.join_paths(vim.fn.stdpath('data'), 'site', 'plugin', 'packer_compiled.lua'),
+  compile_path = util.join_paths(vim.fn.stdpath 'data', 'site', 'plugin', 'packer_compiled.lua'),
 }
 
 return packer.startup(function(use)
-    use {'wbthomason/packer.nvim', opt = true}
+  use { 'wbthomason/packer.nvim', opt = true }
 
-    use 'jaredgorski/fogbell.vim'
-    use 'gruvbox-community/gruvbox'
+  use 'jaredgorski/fogbell.vim'
+  use 'gruvbox-community/gruvbox'
 
-    use 'nvim-lua/popup.nvim'
-    use 'nvim-lua/plenary.nvim'
-    use 'nvim-lua/telescope.nvim'
-    use 'Xuyuanp/nerdtree-git-plugin'
-    use 'preservim/NERDTree'
+  use 'nvim-lua/popup.nvim'
+  use 'nvim-lua/plenary.nvim'
+  use 'nvim-lua/telescope.nvim'
+  use 'Xuyuanp/nerdtree-git-plugin'
+  use 'preservim/NERDTree'
 
-    use 'tpope/vim-sensible'
-    use 'tpope/vim-surround'
-    use 'jistr/vim-nerdtree-tabs'
-    use 'majutsushi/tagbar'
-    use 'vim-scripts/indentpython.vim'
-    use 'lepture/vim-jinja'
-    use 'joshdick/onedark.vim'
-    use 'tiagofumo/vim-nerdtree-syntax-highlight'
-    use 'sheerun/vim-polyglot'
-    use 'tpope/vim-fugitive'
-    use 'jiangmiao/auto-pairs'
-    use 'vim-airline/vim-airline'
-    use 'ryanoasis/vim-devicons'
-    use 'jremmen/vim-ripgrep'
+  use 'tpope/vim-sensible'
+  use 'tpope/vim-surround'
+  use 'jistr/vim-nerdtree-tabs'
+  use 'majutsushi/tagbar'
+  use 'vim-scripts/indentpython.vim'
+  use 'lepture/vim-jinja'
+  use 'joshdick/onedark.vim'
+  use 'tiagofumo/vim-nerdtree-syntax-highlight'
+  use 'sheerun/vim-polyglot'
+  use 'tpope/vim-fugitive'
+  use 'jiangmiao/auto-pairs'
+  use 'vim-airline/vim-airline'
+  use 'ryanoasis/vim-devicons'
+  use 'jremmen/vim-ripgrep'
 
-    use 'preservim/nerdcommenter'
+  use 'preservim/nerdcommenter'
 
-    -- use 'sbdchd/neoformat'
+  -- use 'sbdchd/neoformat'
 
-    use 'tmhedberg/SimpylFold'
+  use 'tmhedberg/SimpylFold'
 
-    use {
-        'neovim/nvim-lspconfig',
-        requires = {
-            'williamboman/mason.nvim',
-            'williamboman/mason-lspconfig.nvim',
-            'WhoIsSethDaniel/mason-tool-installer.nvim',
-            'jose-elias-alvarez/null-ls.nvim',
-            'nvim-lua/lsp-status.nvim',
-        },
-    }
+  use {
+    'neovim/nvim-lspconfig',
+    requires = {
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
+      'WhoIsSethDaniel/mason-tool-installer.nvim',
+      'creativenull/diagnosticls-configs-nvim',
+      'nvim-lua/lsp-status.nvim',
+    },
+  }
 
-    -- use {'prettier/vim-prettier', run = 'npm install' }
+  -- use {'prettier/vim-prettier', run = 'npm install' }
 
-    use {
-        'hrsh7th/nvim-cmp',
-        requires = {
-            'hrsh7th/cmp-nvim-lsp',
-            'hrsh7th/cmp-buffer',
-            'hrsh7th/cmp-path',
-            'hrsh7th/cmp-cmdline',
-            'hrsh7th/cmp-vsnip',
-            'hrsh7th/vim-vsnip',
-        },
-    }
+  use {
+    'hrsh7th/nvim-cmp',
+    requires = {
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
+      'hrsh7th/cmp-vsnip',
+      'hrsh7th/vim-vsnip',
+    },
+  }
 
-    use 'alvan/vim-closetag'
+  use 'alvan/vim-closetag'
 
-    if packer_bootstrap then
-        packer.sync()
-    end
+  if packer_bootstrap then
+    packer.sync()
+  end
 end)
-
