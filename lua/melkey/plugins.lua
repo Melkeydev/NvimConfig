@@ -14,6 +14,10 @@ vim.cmd('packadd packer.nvim')
 local packer = require'packer'
 local util = require'packer.util'
 
+packer.init({
+    compile_path = vim.fn.stdpath('data') .. '/plugin/packer_compiled.lua'
+})
+
 return packer.startup(function(use)
     use {'wbthomason/packer.nvim', opt = true}
 
