@@ -69,6 +69,8 @@ return packer.startup(function(use)
     use 'hrsh7th/vim-vsnip'
     use 'alvan/vim-closetag'
 
+    use 'zbirenbaum/copilot.lua'
+
     if packer_bootstrap then
         packer.sync()
     end
