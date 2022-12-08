@@ -21,7 +21,7 @@ local setup_mappings = function()
 
 
       -- Movement
-    utils.key_mapper('n', '<leader>ne', ':NERDTreeToggle<CR>')
+    utils.key_mapper('n', '<leader>ne', ':NvimTreeToggle<CR>')
     utils.key_mapper('n', '<leader>h', ':wincmd h<CR>')
     utils.key_mapper('n', '<leader>j', ':wincmd j<CR>')
     utils.key_mapper('n', '<leader>k', ':wincmd k<CR>')

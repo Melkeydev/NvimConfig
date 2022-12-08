@@ -27,17 +27,14 @@ return packer.startup(function(use)
     use 'nvim-lua/popup.nvim'
     use 'nvim-lua/plenary.nvim'
     use 'nvim-lua/telescope.nvim'
-    use 'Xuyuanp/nerdtree-git-plugin'
     use 'preservim/NERDTree'
 
     use 'tpope/vim-sensible'
     use 'tpope/vim-surround'
-    use 'jistr/vim-nerdtree-tabs'
     use 'majutsushi/tagbar'
     use 'vim-scripts/indentpython.vim'
     use 'lepture/vim-jinja'
     use 'joshdick/onedark.vim'
-    use 'tiagofumo/vim-nerdtree-syntax-highlight'
     use 'sheerun/vim-polyglot'
     use 'tpope/vim-fugitive'
     use 'jiangmiao/auto-pairs'
@@ -70,6 +67,13 @@ return packer.startup(function(use)
     use 'alvan/vim-closetag'
 
     use 'zbirenbaum/copilot.lua'
+
+    use {
+        'nvim-tree/nvim-tree.lua',
+        requires = {
+            'nvim-tree/nvim-web-devicons', -- optional, for file icons
+        },
+    }
 
     if packer_bootstrap then
         packer.sync()
