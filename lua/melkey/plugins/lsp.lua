@@ -55,8 +55,6 @@ return {
 		end
 
 		local function on_attach(client, bufnr)
-			vim.print("Attached: " .. client.name)
-
 			vim.keymap.set(
 				"n",
 				"gd",
@@ -126,19 +124,19 @@ return {
 			vim.keymap.set(
 				"n",
 				"<leader>dn",
-				':lua vim.diagnostic.goto_next({ float = { border = "rounded" } })<CR>',
+				'<Cmd>lua vim.diagnostic.goto_next({ float = { border = "rounded" } })<CR>',
 				{ buffer = bufnr, desc = "LSP go to next diagnostic" }
 			)
 			vim.keymap.set(
 				"n",
 				"<leader>dp",
-				':lua vim.diagnostic.goto_prev({ float = { border = "rounded" } })<CR>',
+				'<Cmd>lua vim.diagnostic.goto_prev({ float = { border = "rounded" } })<CR>',
 				{ buffer = bufnr, desc = "LSP go to previous diagnostic" }
 			)
 			vim.keymap.set(
 				"n",
 				"<leader>ds",
-				':lua vim.diagnostic.open_float({ focusable = false, border="rounded" })<CR>',
+				'<Cmd>lua vim.diagnostic.open_float({ focusable = false, border="rounded" })<CR>',
 				{ buffer = bufnr, desc = "LSP show diagnostic under cursor" }
 			)
 
@@ -193,6 +191,9 @@ return {
 
 		local lspconfig = require("lspconfig")
 		lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
+		lspconfig.tsserver.setup({})
+		--lspconfig.tailwindcss.setup({})
+		lspconfig.gopls.setup({})
 
 		lsp.setup()
 
@@ -209,6 +210,33 @@ return {
 		-- Autocompletion
 		local cmp = require("cmp")
 		cmp.setup({
+			mapping = {
+				["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
+				["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+				["<C-space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+				["<C-y>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+				["<C-e>"] = cmp.mapping({
+					i = cmp.mapping.abort(),
+					c = cmp.mapping.close(),
+				}),
+				["<CR>"] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+				["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+				["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+				["<Tab>"] = vim.schedule_wrap(function(fallback)
+					if cmp.visible() and has_words_before() then
+						cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+					else
+						fallback()
+					end
+				end),
+				["<S-Tab>"] = vim.schedule_wrap(function(fallback)
+					if cmp.visible() and has_words_before() then
+						cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+					else
+						fallback()
+					end
+				end),
+			},
 			window = {
 				completion = cmp.config.window.bordered(),
 				documentation = cmp.config.window.bordered(),
