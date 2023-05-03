@@ -1,0 +1,229 @@
+return {
+	"neovim/nvim-lspconfig",
+	dependencies = {
+		-- Core
+		{
+			"williamboman/mason.nvim",
+			dependencies = { "WhoIsSethDaniel/mason-tool-installer.nvim" },
+			build = function()
+				pcall(vim.cmd, "MasonUpdate")
+			end,
+		},
+		{
+			"VonHeikemen/lsp-zero.nvim",
+			branch = "v2.x",
+			lazy = false,
+		},
+		{
+			"hrsh7th/nvim-cmp",
+			dependencies = {
+				"hrsh7th/cmp-nvim-lsp",
+				"hrsh7th/cmp-path",
+				"hrsh7th/cmp-buffer",
+				"onsails/lspkind-nvim",
+				"L3MON4D3/LuaSnip",
+				"saadparwaiz1/cmp_luasnip",
+			},
+		},
+		{ "jose-elias-alvarez/null-ls.nvim" },
+
+		-- Language specific
+		{ "folke/neodev.nvim", lazy = false },
+		{ "jose-elias-alvarez/typescript.nvim", lazy = false },
+	},
+	config = function()
+		local format_group = vim.api.nvim_create_augroup("LspFormatGroup", {})
+		local format_opts = { async = false, timeout_ms = 2500 }
+
+		local function register_fmt_keymap(name, bufnr)
+			local fmt_keymap = "<leader>f"
+			vim.keymap.set("n", fmt_keymap, function()
+				vim.lsp.buf.format(vim.tbl_extend("force", format_opts, { name = name, bufnr = bufnr }))
+			end, { desc = "Format current buffer [LSP]", buffer = bufnr })
+		end
+
+		local function register_fmt_autosave(name, bufnr)
+			vim.api.nvim_clear_autocmds({ group = format_group, buffer = bufnr })
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				group = format_group,
+				buffer = bufnr,
+				callback = function()
+					vim.lsp.buf.format(vim.tbl_extend("force", format_opts, { name = name, bufnr = bufnr }))
+				end,
+				desc = "Format on save [LSP]",
+			})
+		end
+
+		local function on_attach(client, bufnr)
+			vim.print("Attached: " .. client.name)
+
+			vim.keymap.set(
+				"n",
+				"gd",
+				"<Cmd>lua vim.lsp.buf.definition()<CR>",
+				{ buffer = bufnr, desc = "LSP go to definition" }
+			)
+			vim.keymap.set(
+				"n",
+				"gt",
+				"<Cmd>lua vim.lsp.buf.type_definition()<CR>",
+				{ buffer = bufnr, desc = "LSP go to type definition" }
+			)
+			vim.keymap.set(
+				"n",
+				"gD",
+				"<Cmd>lua vim.lsp.buf.declaration()<CR>",
+				{ buffer = bufnr, desc = "LSP go to declaration" }
+			)
+			vim.keymap.set(
+				"n",
+				"gi",
+				"<Cmd>lua vim.lsp.buf.implementation()<CR>",
+				{ buffer = bufnr, desc = "LSP go to implementation" }
+			)
+			vim.keymap.set(
+				"n",
+				"gw",
+				"<Cmd>lua vim.lsp.buf.document_symbol()<CR>",
+				{ buffer = bufnr, desc = "LSP document symbols" }
+			)
+			vim.keymap.set(
+				"n",
+				"gW",
+				"<Cmd>lua vim.lsp.buf.workspace_symbol()<CR>",
+				{ buffer = bufnr, desc = "LSP Workspace symbols" }
+			)
+			vim.keymap.set(
+				"n",
+				"gr",
+				"<Cmd>lua vim.lsp.buf.references()<CR>",
+				{ buffer = bufnr, desc = "LSP show references" }
+			)
+			vim.keymap.set(
+				"n",
+				"K",
+				"<Cmd>lua vim.lsp.buf.hover()<CR>",
+				{ buffer = bufnr, desc = "LSP hover documentation" }
+			)
+			vim.keymap.set(
+				"n",
+				"<c-k>",
+				"<Cmd>lua vim.lsp.buf.signature_help()<CR>",
+				{ buffer = bufnr, desc = "LSP signature help" }
+			)
+			vim.keymap.set(
+				"n",
+				"<leader>af",
+				"<Cmd>lua vim.lsp.buf.code_action()<CR>",
+				{ buffer = bufnr, desc = "LSP show code actions" }
+			)
+			vim.keymap.set(
+				"n",
+				"<leader>rn",
+				"<Cmd>lua vim.lsp.buf.rename()<CR>",
+				{ buffer = bufnr, desc = "LSP rename word" }
+			)
+			vim.keymap.set(
+				"n",
+				"<leader>dn",
+				':lua vim.diagnostic.goto_next({ float = { border = "rounded" } })<CR>',
+				{ buffer = bufnr, desc = "LSP go to next diagnostic" }
+			)
+			vim.keymap.set(
+				"n",
+				"<leader>dp",
+				':lua vim.diagnostic.goto_prev({ float = { border = "rounded" } })<CR>',
+				{ buffer = bufnr, desc = "LSP go to previous diagnostic" }
+			)
+			vim.keymap.set(
+				"n",
+				"<leader>ds",
+				':lua vim.diagnostic.open_float({ focusable = false, border="rounded" })<CR>',
+				{ buffer = bufnr, desc = "LSP show diagnostic under cursor" }
+			)
+
+			if client.name == "gopls" then
+				register_fmt_keymap(client.name, bufnr)
+				register_fmt_autosave(client.name, bufnr)
+			end
+
+			if client.name == "null-ls" then
+				register_fmt_keymap(client.name, bufnr)
+				register_fmt_autosave(client.name, bufnr)
+			end
+		end
+
+		local capabilities = vim.lsp.protocol.make_client_capabilities()
+		capabilities.textDocument.completion.completionItem.snippetSupport = true
+		capabilities.textDocument.completion.completionItem.preselectSupport = true
+		capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
+		capabilities.textDocument.completion.completionItem.resolveSupport = {
+			properties = {
+				"documentation",
+				"detail",
+				"additionalTextEdits",
+			},
+		}
+
+		-- Autointall servers
+		local tools = {
+			"lua-language-server",
+			"typescript-language-server",
+			"tailwindcss-language-server",
+			"html-lsp",
+			"css-lsp",
+			"json-lsp",
+			"gopls",
+			"python-lsp-server",
+			"black",
+			"stylua",
+			"prettier",
+			"eslint_d",
+		}
+
+		require("mason-tool-installer").setup({ ensure_installed = tools })
+
+		-- LSP Setup
+		require("neodev").setup({
+			-- add any options here, or leave empty to use the default settings
+		})
+
+		local lsp = require("lsp-zero").preset("recommended")
+		lsp.on_attach(on_attach)
+
+		local lspconfig = require("lspconfig")
+		lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
+
+		lsp.setup()
+
+		-- Tooling, non-lsp stuff
+		local null_ls = require("null-ls")
+		null_ls.setup({
+			sources = {
+				null_ls.builtins.formatting.stylua,
+				null_ls.builtins.formatting.prettier,
+				null_ls.builtins.diagnostics.eslint_d,
+			},
+		})
+
+		-- Autocompletion
+		local cmp = require("cmp")
+		cmp.setup({
+			window = {
+				completion = cmp.config.window.bordered(),
+				documentation = cmp.config.window.bordered(),
+			},
+			formatting = {
+				format = require("lspkind").cmp_format({
+					mode = "symbol_text",
+					menu = {
+						buffer = "[BUF]",
+						nvim_lsp = "[LSP]",
+						luasnip = "[SNIP]",
+						path = "[PATH]",
+					},
+				}),
+			},
+		})
+	end,
+}
