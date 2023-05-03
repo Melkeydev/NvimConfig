@@ -136,7 +136,7 @@ return {
 			vim.keymap.set(
 				"n",
 				"<leader>ds",
-				'<Cmd>lua vim.diagnostic.open_float({ focusable = false, border="rounded" })<CR>',
+				'<Cmd>lua vim.diagnostic.open_float({ border = "rounded" })<CR>',
 				{ buffer = bufnr, desc = "LSP show diagnostic under cursor" }
 			)
 
