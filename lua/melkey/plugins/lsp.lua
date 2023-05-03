@@ -30,6 +30,7 @@ return {
 		-- Language specific
 		{ "folke/neodev.nvim", lazy = false },
 		{ "jose-elias-alvarez/typescript.nvim", lazy = false },
+		{ "ray-x/go.nvim", lazy = false, dependencies = { "ray-x/guihua.lua" } },
 	},
 	config = function()
 		local format_group = vim.api.nvim_create_augroup("LspFormatGroup", {})
@@ -196,9 +197,17 @@ return {
 
 		local lspconfig = require("lspconfig")
 		lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
-		lspconfig.tsserver.setup({})
-		--lspconfig.tailwindcss.setup({})
-		lspconfig.gopls.setup({})
+
+		lspconfig.jsonls.setup({})
+		lspconfig.html.setup({})
+		lspconfig.cssls.setup({})
+		lspconfig.tailwindcss.setup({})
+		require("typescript").setup({
+			server = { on_attach = on_attach },
+		})
+
+		-- lspconfig.gopls.setup({})
+		require("go").setup({ lsp_on_attach = on_attach })
 
 		lsp.setup()
 
@@ -213,6 +222,14 @@ return {
 		})
 
 		-- Autocompletion
+		local has_words_before = function()
+			if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
+				return false
+			end
+			local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+			return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
+		end
+
 		local cmp = require("cmp")
 		cmp.setup({
 			mapping = {
