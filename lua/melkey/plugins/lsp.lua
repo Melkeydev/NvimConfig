@@ -207,7 +207,10 @@ return {
 		})
 
 		-- lspconfig.gopls.setup({})
-		require("go").setup({ lsp_on_attach = on_attach })
+		require("go").setup({
+			lsp_cfg = true,
+			lsp_on_attach = on_attach,
+		})
 
 		lsp.setup()
 
