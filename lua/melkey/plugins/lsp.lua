@@ -188,6 +188,11 @@ return {
 
 		local lsp = require("lsp-zero").preset("recommended")
 		lsp.on_attach(on_attach)
+		lsp.set_server_config({
+			on_init = function(client)
+				client.server_capabilities.semanticTokensProvider = nil
+			end,
+		})
 
 		local lspconfig = require("lspconfig")
 		lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
