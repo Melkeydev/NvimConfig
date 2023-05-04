@@ -26,6 +26,8 @@ return {
 			},
 		},
 		{ "jose-elias-alvarez/null-ls.nvim" },
+		{ "nvimdev/lspsaga.nvim" },
+		{ "j-hui/fidget.nvim" },
 
 		-- Language specific
 		{ "folke/neodev.nvim", lazy = false },
@@ -33,6 +35,7 @@ return {
 		{ "ray-x/go.nvim", lazy = false, dependencies = { "ray-x/guihua.lua" } },
 	},
 	config = function()
+		-- Setup functions and options to be used further down
 		local format_group = vim.api.nvim_create_augroup("LspFormatGroup", {})
 		local format_opts = { async = false, timeout_ms = 2500 }
 
@@ -55,17 +58,35 @@ return {
 			})
 		end
 
+		require("fidget").setup({})
+		require("lspsaga").setup({
+			ui = { border = "rounded" },
+			symbol_in_winbar = { enable = false },
+		})
+
 		local function on_attach(client, bufnr)
+			--vim.keymap.set(
+			--"n",
+			--"gd",
+			--"<Cmd>lua vim.lsp.buf.definition()<CR>",
+			--{ buffer = bufnr, desc = "LSP go to definition" }
+			--)
 			vim.keymap.set(
 				"n",
 				"gd",
-				"<Cmd>lua vim.lsp.buf.definition()<CR>",
+				"<Cmd>Lspsaga goto_definition<CR>",
 				{ buffer = bufnr, desc = "LSP go to definition" }
 			)
+			--vim.keymap.set(
+			--"n",
+			--"gt",
+			--"<Cmd>lua vim.lsp.buf.type_definition()<CR>",
+			--{ buffer = bufnr, desc = "LSP go to type definition" }
+			--)
 			vim.keymap.set(
 				"n",
 				"gt",
-				"<Cmd>lua vim.lsp.buf.type_definition()<CR>",
+				"<Cmd>Lspsaga peek_type_definition<CR>",
 				{ buffer = bufnr, desc = "LSP go to type definition" }
 			)
 			vim.keymap.set(
@@ -80,12 +101,13 @@ return {
 				"<Cmd>lua vim.lsp.buf.implementation()<CR>",
 				{ buffer = bufnr, desc = "LSP go to implementation" }
 			)
-			vim.keymap.set(
-				"n",
-				"gw",
-				"<Cmd>lua vim.lsp.buf.document_symbol()<CR>",
-				{ buffer = bufnr, desc = "LSP document symbols" }
-			)
+			--vim.keymap.set(
+			--"n",
+			--"gw",
+			--"<Cmd>lua vim.lsp.buf.document_symbol()<CR>",
+			--{ buffer = bufnr, desc = "LSP document symbols" }
+			--)
+			vim.keymap.set("n", "gw", "<Cmd>Lspsaga lsp_finder<CR>", { buffer = bufnr, desc = "LSP document symbols" })
 			vim.keymap.set(
 				"n",
 				"gW",
@@ -98,49 +120,77 @@ return {
 				"<Cmd>lua vim.lsp.buf.references()<CR>",
 				{ buffer = bufnr, desc = "LSP show references" }
 			)
-			vim.keymap.set(
-				"n",
-				"K",
-				"<Cmd>lua vim.lsp.buf.hover()<CR>",
-				{ buffer = bufnr, desc = "LSP hover documentation" }
-			)
+			--vim.keymap.set(
+			--"n",
+			--"K",
+			--"<Cmd>lua vim.lsp.buf.hover()<CR>",
+			--{ buffer = bufnr, desc = "LSP hover documentation" }
+			--)
+			vim.keymap.set("n", "K", "<Cmd>Lspsaga hover_doc<CR>", { buffer = bufnr, desc = "LSP hover documentation" })
 			vim.keymap.set(
 				"n",
 				"<c-k>",
 				"<Cmd>lua vim.lsp.buf.signature_help()<CR>",
 				{ buffer = bufnr, desc = "LSP signature help" }
 			)
+			--vim.keymap.set(
+			--"n",
+			--"<leader>af",
+			--"<Cmd>lua vim.lsp.buf.code_action()<CR>",
+			--{ buffer = bufnr, desc = "LSP show code actions" }
+			--)
 			vim.keymap.set(
 				"n",
 				"<leader>af",
-				"<Cmd>lua vim.lsp.buf.code_action()<CR>",
+				"<Cmd>Lspsaga code_action<CR>",
 				{ buffer = bufnr, desc = "LSP show code actions" }
 			)
-			vim.keymap.set(
-				"n",
-				"<leader>rn",
-				"<Cmd>lua vim.lsp.buf.rename()<CR>",
-				{ buffer = bufnr, desc = "LSP rename word" }
-			)
+			--vim.keymap.set(
+			--"n",
+			--"<leader>rn",
+			--"<Cmd>lua vim.lsp.buf.rename()<CR>",
+			--{ buffer = bufnr, desc = "LSP rename word" }
+			--)
+			vim.keymap.set("n", "<leader>rn", "<Cmd>Lspsaga rename<CR>", { buffer = bufnr, desc = "LSP rename word" })
+			--vim.keymap.set(
+			--"n",
+			--"<leader>dn",
+			--'<Cmd>lua vim.diagnostic.goto_next({ float = { border = "rounded" } })<CR>',
+			--{ buffer = bufnr, desc = "LSP go to next diagnostic" }
+			--)
 			vim.keymap.set(
 				"n",
 				"<leader>dn",
-				'<Cmd>lua vim.diagnostic.goto_next({ float = { border = "rounded" } })<CR>',
+				"<Cmd>Lspsaga diagnostic_jump_next<CR>",
 				{ buffer = bufnr, desc = "LSP go to next diagnostic" }
 			)
+			--vim.keymap.set(
+			--"n",
+			--"<leader>dp",
+			--'<Cmd>lua vim.diagnostic.goto_prev({ float = { border = "rounded" } })<CR>',
+			--{ buffer = bufnr, desc = "LSP go to previous diagnostic" }
+			--)
 			vim.keymap.set(
 				"n",
 				"<leader>dp",
-				'<Cmd>lua vim.diagnostic.goto_prev({ float = { border = "rounded" } })<CR>',
+				"<Cmd>Lspsaga diagnostic_jump_prev<CR>",
 				{ buffer = bufnr, desc = "LSP go to previous diagnostic" }
 			)
+			--vim.keymap.set(
+			--"n",
+			--"<leader>ds",
+			--'<Cmd>lua vim.diagnostic.open_float({ border = "rounded" })<CR>',
+			--{ buffer = bufnr, desc = "LSP show diagnostic under cursor" }
+			--)
 			vim.keymap.set(
 				"n",
 				"<leader>ds",
-				'<Cmd>lua vim.diagnostic.open_float({ border = "rounded" })<CR>',
+				"<Cmd>Lspsaga show_line_diagnostics<CR>",
 				{ buffer = bufnr, desc = "LSP show diagnostic under cursor" }
 			)
 
+			-- Register formatting and autoformatting
+			-- based on lsp server
 			if client.name == "gopls" then
 				register_fmt_keymap(client.name, bufnr)
 				register_fmt_autosave(client.name, bufnr)
@@ -164,7 +214,14 @@ return {
 			},
 		}
 
-		-- Autointall servers
+		vim.diagnostic.config({
+			virtual_text = {
+				severity = { vim.diagnostic.severity.ERROR, vim.diagnostic.severity.WARN },
+			},
+		})
+
+		-- List out the lsp servers, linters, formatters
+		-- for mason
 		local tools = {
 			"lua-language-server",
 			"typescript-language-server",
@@ -182,7 +239,9 @@ return {
 
 		require("mason-tool-installer").setup({ ensure_installed = tools })
 
-		-- LSP Setup
+		-- Register your lsp servers
+		-- if they depend on an extra plugin (eg go.nvim)
+		-- then call those in this section
 		require("neodev").setup({
 			-- add any options here, or leave empty to use the default settings
 		})
@@ -206,7 +265,6 @@ return {
 			server = { on_attach = on_attach },
 		})
 
-		-- lspconfig.gopls.setup({})
 		require("go").setup({
 			lsp_cfg = true,
 			lsp_on_attach = on_attach,
@@ -214,7 +272,7 @@ return {
 
 		lsp.setup()
 
-		-- Tooling, non-lsp stuff
+		-- Linter/Formatter registeration via null-ls
 		local null_ls = require("null-ls")
 		null_ls.setup({
 			sources = {
@@ -224,7 +282,8 @@ return {
 			},
 		})
 
-		-- Autocompletion
+		-- Override autocompletion in this section
+		-- for nvim-cmp
 		local has_words_before = function()
 			if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
 				return false

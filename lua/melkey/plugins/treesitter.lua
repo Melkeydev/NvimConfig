@@ -19,6 +19,8 @@ return {
 					"css",
 					"astro",
 					"prisma",
+					"markdown",
+					"markdown_inline",
 				},
 				highlight = {
 					enable = true,
