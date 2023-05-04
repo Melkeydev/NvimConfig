@@ -17,6 +17,7 @@ return {
 		{
 			"hrsh7th/nvim-cmp",
 			dependencies = {
+				"roobert/tailwindcss-colorizer-cmp.nvim",
 				"hrsh7th/cmp-nvim-lsp",
 				"hrsh7th/cmp-path",
 				"hrsh7th/cmp-buffer",
@@ -294,6 +295,7 @@ return {
 
 		local cmp = require("cmp")
 		cmp.setup({
+			performance = { debounce = 500 },
 			mapping = {
 				["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
 				["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
@@ -326,15 +328,18 @@ return {
 				documentation = cmp.config.window.bordered(),
 			},
 			formatting = {
-				format = require("lspkind").cmp_format({
-					mode = "symbol_text",
-					menu = {
-						buffer = "[BUF]",
-						nvim_lsp = "[LSP]",
-						luasnip = "[SNIP]",
-						path = "[PATH]",
-					},
-				}),
+				format = function(entry, item)
+					require("lspkind").cmp_format({
+						mode = "symbol_text",
+						menu = {
+							buffer = "[BUF]",
+							nvim_lsp = "[LSP]",
+							luasnip = "[SNIP]",
+							path = "[PATH]",
+						},
+					})(entry, item)
+					return require("tailwindcss-colorizer-cmp").formatter(entry, item)
+				end,
 			},
 		})
 
