@@ -15,5 +15,3 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("melkey.plugins")
-
-pcall(vim.cmd, "colorscheme tokyonight-night")
