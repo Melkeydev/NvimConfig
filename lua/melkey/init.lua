@@ -1,3 +1,4 @@
+require("melkey.autocmds")
 require("melkey.options")
 require("melkey.keymaps")
 
