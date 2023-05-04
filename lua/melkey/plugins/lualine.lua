@@ -8,21 +8,20 @@ return {
 			-- Credit: glepnir
 			local lualine = require("lualine")
 
-      -- Color table for highlights
-      -- stylua: ignore
-      local colors = {
-        bg       = '#101019',
-        fg       = '#cdd6f4',
-        yellow   = '#f9e2af',
-        cyan     = '#89dceb',
-        darkblue = '#45475a',
-        green    = '#a6e3a1',
-        orange   = '#fab387',
-        violet   = '#cba6f7',
-        magenta  = '#f5c2e7',
-        blue     = '#89b4fa',
-        red      = '#f38ba8',
-      }
+			-- Color table for highlights
+			local colors = {
+				bg = "#101019",
+				fg = "#cdd6f4",
+				yellow = "#f9e2af",
+				cyan = "#89dceb",
+				darkblue = "#45475a",
+				green = "#a6e3a1",
+				orange = "#fab387",
+				violet = "#cba6f7",
+				magenta = "#f5c2e7",
+				blue = "#89b4fa",
+				red = "#f38ba8",
+			}
 
 			local conditions = {
 				buffer_not_empty = function()
