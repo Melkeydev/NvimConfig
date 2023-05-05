@@ -2,7 +2,6 @@ return {
 	"tpope/vim-surround",
 	"jiangmiao/auto-pairs",
 	"preservim/nerdcommenter",
-	"alvan/vim-closetag",
 	{
 		"folke/which-key.nvim",
 		config = function()
